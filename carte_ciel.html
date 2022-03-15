@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="js/jquery-3.6.0.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+	<title>Carte du Ciel</title>	
+	<link rel="stylesheet" type="text/css" href="style/monstyle.css" />
+	 <script type="text/javascript" src="js/d3.min.js"></script>
+  <script type="text/javascript" src="js/d3.geo.projection.min.js"></script>
+  <script type="text/javascript" src="js/celestial.js"></script>
+  <link rel="stylesheet" href="style/celestial.css">
+<style type="text/css">
+  .btnPlanet { display: inline-block; font: bold 14pt Consolas; margin: 0 6px; padding: 2px 6px; border: 2px solid #000; border-radius: 3px; background: rgba(204, 204, 255, 0.6) }
+</style>
+</head>
+
+
+<body>
+
+
+	<!-- Espace réserver au menu -->
+  
+	<header>
+	  <nav class="navbar navbar-expand-lg navbar-light  ">
+		<div class="container-fluid">
+		  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
+			aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+		  <div class="collapse navbar-collapse justify-content-md-center" id="navbarCollapse">
+			<ul class="navbar-nav  mr-auto justify-content-center">
+			  <li class="nav-item "><a class="nav-link" href="index.html" title="Bienvenue">Accueil</a></li>
+			  <li class="nav-item"><a class="nav-link" href="album.html" title="PHOTOS">Photos</a></li>
+			  <li class="nav-item"><a class="nav-link" href="telechargement.html"
+				  title="Telechargement">Telechargements</a></li>
+			  <li class="nav-item"><a class="nav-link" href="video.html" title="Video">Videos</a></li>
+			  <li class="nav-item"><a class="nav-link" href="compte.html" title="Video">Mon compte</a></li>
+			  <li class="nav-item"><a class="nav-link active" href="carte_ciel.html" title="Video">Carte du Ciel</a></li>
+			  <li class="nav-item"><a class="nav-link" href="formulaire.html" title="Pour me joindre">Contact</a></li>
+			  <li class="nav-item"><a class="nav-link" href="plan.html" title="plan du site">Plan du site</a></li>
+			</ul>
+  
+		  </div>
+		</div>
+	  </nav>
+	</header>
+
+		<div class="container-fluid">
+<div id="follow"></div>
+  <div style="overflow:hidden;"><div id="celestial-map"></div></div>
+  <div id="celestial-form"></div>
+
+  <script type="text/javascript">
+
+var cfg = Celestial.settings().set({
+      geopos: [47.666456976635594, -2.75978258607692],
+      location: false,
+      form: false,
+	  lang:"fr",
+      formFields: {"location": true, "general": false, "stars": false, "dsos": false, "constellations": false, "lines": false, "other": true},
+      advanced: false,
+      follow: "center",
+      projection: "orthographic",
+      datapath: "https://ofrohn.github.io/data/",
+      planets: { show: true, names: true ,symbolType:"disk"},
+      stars: { names: true, limit: 4.6 },
+      dsos: { show: false},
+      constellations: { names: true }
+    }),
+    reqID,
+    reqAnimFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame  ||
+                   window.webkitRequestAnimationFrame || window.msRequestAnimationFrame ||
+                   window.oRequestAnimationFrame,
+    cncAnimFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame ||
+                   window.webkitCancelAnimationFrame || window.msCancelAnimationFrame ||
+                   window.oCancelAnimationFrame,
+    dt = new Date();
+
+Celestial.display(cfg);
+
+function animate() {
+  dt.setDate(dt.getDate()+1);
+  Celestial.date(dt);
+  reqID = reqAnimFrame(animate);
+  
+  if (follow === "") return;
+}
+
+d3.select('#celestial-map').on('mousedown', function() { cncAnimFrame(reqID) } )
+d3.select('#celestial-map').on('mouseup', function() { reqAnimFrame(animate) } )
+
+reqID = reqAnimFrame(animate);
+
+  </script>
+  <div class="text-center"><p><a href="https://github.com/ofrohn/d3-celestial"><b>D3-Celestial</b></a> released under <a href="http://opensource.org/licenses/BSD-3-Clause">BSD license</a>. Copyright 2015-20 <a href="http://armchairastronautics.blogspot.com/" rel="author">Olaf Frohn</a>.</p>
+  </div>
+  </div>
+
+
+
+
+<footer class="py-3 my-4 border-bottom">
+  <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+	<li class="nav-item"><a href="index.html" class="nav-link px-2 text-muted">Accueil</a></li>
+	<li class="nav-item"><a href="https://iss.cnes.fr/fr/" class="nav-link px-2 text-muted">ISS</a></li>
+	<li class="nav-item"><a href="https://nasa.gov" class="nav-link px-2 text-muted">Nasa</a></li>
+	<li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQ</a></li>
+	<li class="nav-item"><a href="formulaire.html" class="nav-link px-2 text-muted">A propos</a></li>
+  </ul>
+  
+  <p class="text-center text-muted">&copy; 2021 Copyright Vannes</p>
+</footer>
+
+
+
+</body>
+
+
+</html>
+
